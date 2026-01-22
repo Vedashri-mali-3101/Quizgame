@@ -16,6 +16,7 @@ body{
     margin: 5% auto;
     text-align: center;
     padding: 2rem;
+    box-shadow:3px 3px 3px 3px black;
 }
 .logo{
     
@@ -71,12 +72,7 @@ margin:0.5rem;
     color: black;
     padding: 2rem;
     font-size: large;
-
 }
-
-
-
-
 #question-count{
     width: 3rem;
     height: 3rem;
@@ -91,21 +87,6 @@ margin:0.5rem;
     justify-content: center;
 }
 
-/*  
-label{
-    
- height: 2rem;
- width: 4rem;
-  margin: 2rem 8rem;
- display:inline-block;
-    background-color:skyblue;
-}
-
-input[radio]:{
-    display: none;
-    visibility: hidden;
-}*/
-
 
 .score-container h1{
     font-weight: bold;
@@ -113,6 +94,8 @@ input[radio]:{
 }
 .score-container{
     font-weight: bold;
+    font-size: larger;
+
     
 }
 .score-container p{
@@ -120,38 +103,19 @@ input[radio]:{
 }
 
 #next {
-    height:2rem;
+    height:2.5rem;
     width: 50% ;
+    border-radius:15px;
+    font-weight: bold;
       background-color:yellow;
 }
 #restart{
     width:20%;
     height: 2rem;
     background-color: rgb(0, 208, 255) ;
+    font-weight: bold;
+    border-radius: 10px;
 }
-
-/*
-.correct{
-    background: #28a745 !important;
-    color: #fff;
-}
-
-.wrong {
-    background: #dc3545 !important;
-    color: #fff; }
-
-/*#next:hover{
-    cursor: pointer;
-    background-color:aquamarine;
-    color: rgb(8, 7, 7);
-}
-
-
-#option-container button.selected {
-  background-color: lightgreen; /* highlight selected 
-  border: 2px solid #333;
-  pointer-events: none;
-}*/
 
 /* hide default radio */
 .radio-input {
@@ -159,10 +123,24 @@ input[radio]:{
 }
 
 /* button style */
+
+#option-container{
+
+     display:grid;
+    grid-template-columns: repeat(2, 20rem); 
+    gap:15px;
+align-items: center;
+margin-left: 8rem;
+    
+}
 .radio-btn {
     display: block;
+    width:15rem;
+    height: fit-content;
+  
+    
     padding: 12px 16px;
-    margin: 10px 0;
+    
     border: 2px solid #333;
     border-radius: 8px;
     cursor: pointer;
@@ -176,12 +154,6 @@ input[radio]:{
     background-color: #f4eeeee0;
 }
 
-/* selected state 
-.radio-input:checked + .radio-btn {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
 
 /* correct & wrong states */
 .radio-btn .correct {
@@ -194,4 +166,20 @@ input[radio]:{
     background-color: #dc3545;
     color: white;
     border-color: #dc3545;
+}
+.userName{
+    color: black;
+}
+
+#timer,#score{
+    background-color: skyblue;
+
+    font-weight: bold;
+}
+#end{
+    background-color:skyblue;
+    width:max-content;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 20rem;
 }

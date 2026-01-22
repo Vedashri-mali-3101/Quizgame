@@ -515,24 +515,17 @@ const questions = [
 
 ];
 
-
-
-
 let username='';
 let category='';
 let questionCount=0;
 let index=0;
 let score=0;
-
+let wrong=0;
 let questionAttempt = 0;
 let attempted = false;
 
-
 function getName(event){
  username=document.getElementById('name-input').value ;
-
-
-
    if(username==''){
    alert('name is required');
    }
@@ -544,7 +537,6 @@ let welcomeNote=`<P>Welcome ,${username} you can start the quiz now!</p>`
 
     document.getElementById('welcome-note').innerHTML=welcomeNote
 }
-
 
 function startQuiz(event){
 
@@ -561,20 +553,19 @@ if(username==''){
     document.getElementById('container').innerHTML=""
     let quiz=`<h1> ${event.target.value}</h1>
     <div class="container">
-         <div>Timer</div>
+         <div id="timer">Timer</div>
          <div id="score">Score</div>
     </div>
 <div id="question-count">QC</div>
 <div id="question-container">Question 1</div> 
-<div id="option-container">Options </div>
+<div id="option-container">Options </div><br>
 <button onclick="nextQue()" id="next">Next</button>`
     document.getElementById('container').innerHTML=quiz;
     displayQuestion();
 }
 
 function displayQuestion(){
-
-    attempted = false;
+   attempted = false;
 
 let questionContainer=document.getElementById('question-container');
 
@@ -591,9 +582,23 @@ displayOptions(categoryQuestions[questionCount]);
 
 }
 
-
-
 function displayOptions(question){
+
+    clearInterval(timer);
+     timeLeft = 15;
+     document.getElementById('timer').innerText = ` Time : ${timeLeft}s`;
+
+     timer = setInterval(()=>{
+        timeLeft--;
+        document.getElementById('timer').innerText = `Time: ${timeLeft}s`;
+
+        if(timeLeft <= 0){
+            clearInterval(timer);
+            nextQue();
+        }
+     },1000);
+
+
     let optionContainer=document.getElementById('option-container');
 optionContainer.innerHTML="";
 
@@ -607,52 +612,35 @@ question.options.forEach((option,index) => {
     btn.id="opt"+index;
  btn.classList.add("radio-input");
 
-
  const label=document.createElement('label');
     label.htmlFor=btn.id;
     label.textContent=option;
      label.classList.add("radio-btn");
 console.log(label.htmlFor)
 
-
 label.onclick=()=>{
-
 //Array.from(optionContainer.children).forEach(b => b.classList.remove('selected'));
-
-         // if (selectedBtn) selectedBtn.classList.remove('selected'); btn.classList.add('selected'); selectedBtn = btn;
-
-         // btn.classList.add('selected');
-        checkAns(label,question.correct);
-        
-
-       // Array.from(optionContainer.children).forEach(b => { if (b !== btn) b.disabled = true; });
+ // if (selectedBtn) selectedBtn.classList.remove('selected'); btn.classList.add('selected'); selectedBtn = btn;
+         // // btn.classList.add('selected');
+    checkAns(label,question.correct);
+        // Array.from(optionContainer.children).forEach(b => { if (b !== btn) b.disabled = true; });
     }
-
-    
-        optionContainer.appendChild(btn);
+  optionContainer.appendChild(btn);
         optionContainer.appendChild(label);
-
-
 
 })
 }
-
-
 function checkAns(label, correct) {
-
 
     if (!attempted) {
         questionAttempt++;
         attempted = true;
     }
 
-
     // clearInterval(timer);
 document.querySelectorAll('.radio-btn').forEach(l => {
   l.style.pointerEvents = "none";
 });
-
-
 
 console.log("Label:", label.textContent);
 console.log("Correct:", correct.trim());
@@ -671,6 +659,7 @@ label.style.border = "2px solid green";
     } else {
 
         label.classList.add("wrong");
+        wrong++;
 
         label.style.backgroundColor = "red";
 label.style.color = "white";
@@ -679,10 +668,9 @@ label.style.border = "2px solid red";
         
         // console.log(label)
     }
-   document.getElementById('score').textContent =` Score: ${score}`;
+   document.getElementById('score').textContent =` Score: ${score} | Wrong: ${wrong}`;
 // setTimeout(nextQue, 1000);
 }
-
 
 function nextQue() {
         
@@ -695,25 +683,27 @@ function nextQue() {
     }
 }
 
-
-
-
 function marks(){
 
     let percentage = (score / questionCount)*100;
-    let result = percentage >= 50 ? 'passed' : 'failed';
+    let result = percentage >= 50 ? 'Passed' : 'Failed';
 
         document.getElementById('container').innerHTML = `
    
     <div class="score-container">
-     <h1 class="userName"> ${username}, Your Quiz is Completed !</h1>&nbsp;<br><br>
-    <p id = "head">Your Total Question are : <br>${questionCount} </p>
-   
-<p>Attempted Questions: ${questionAttempt}</p>
-    <p id = "head"> Total Marks  are :<br> ${score} </p>
-    <p id = "head"> Percentage : <br>${percentage}% </p>
+    <h1>Quiz Result</h1><br>
+     <h2 class="userName"> ${username} Your Quiz is Completed !</h2>&nbsp;<br>
+<hr><br>
+    <p id = "head">Your Total Question are : &nbsp;${questionCount} </p>
     <br>
-    <p id = "head">You have ${result} the Quiz </p>
+    <p>Attempted Questions: ${questionAttempt}</p><br>
+
+    <p id = "head"> Total Marks  are :&nbsp; ${score} </p>
+    <br>
+    <p id = "head"> Percentage : &nbsp;${percentage}% </p>
+    <br>
+    <p id = "end">You have <u>${result}</u> the Quiz </p>
+
     </div>
     <br><br>    
     <button onclick="location.reload()" id="restart" > Restart Quiz </ button>
